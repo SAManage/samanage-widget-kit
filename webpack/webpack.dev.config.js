@@ -33,7 +33,6 @@ const devServer = {
 }
 
 mergedConfig = Object.assign(
-  {},
   commonConfig, {
     mode:'development',
     devServer
