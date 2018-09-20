@@ -11,6 +11,10 @@
       "my_first_widget": {
         "description": "A good place to start from",
         "name": "My First Widget"
+      },
+      "logMeInWidget": {
+        "description": "Samanage LogMeIn Rescue integration application",
+        "name": "LogMeIn Rescue"
       }
     }
   }

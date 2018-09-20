@@ -4,28 +4,25 @@ import ReactJson from 'react-json-view'
 import REPL from 'shared/components/repl.js'
 import ReactDetachableWindow from 'react-detachable-window'
 import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
-
-// Example of reusing Icon component
-import { Icon } from 'common-react-components'
 import classes from './index.scss'
 
 const EventBus = {
   refs: {},
-  setState: function(id, state) {
-    var bus = EventBus
+  setState (id, state) {
+    const bus = EventBus
     return bus.call(id, 'setState', state)
   },
-  call: function(id, funcName, ...params) {
-    var bus = EventBus
-    var instance = bus.refs[id].current
+  call (id, funcName, ...params) {
+    const bus = EventBus
+    const instance = bus.refs[id].current
     return instance[funcName].apply(instance, ...params)
   },
-  getRef: function (id, component) {
-    var bus = EventBus
+  getRef (id, component) {
+    const bus = EventBus
     if ((component == null) && bus.refs[id]) {
       delete bus.refs[id]
     }
-    var ref = bus.refs[id]
+    let ref = bus.refs[id]
     if (!ref) {
       ref = React.createRef()
       bus.refs[id] = ref
@@ -106,7 +103,7 @@ export default class SamangeWidget extends Component {
     console.log('RENDER')
     return (
       <div>
-       <Icon className={classes.logo} category='samanage' icon='bigLogo' fillColor='none' />
+        <Icon className={classes.logo} category='samanage' icon='bigLogo' fillColor='none' />
         <p width='100%' align='center' style={{ background: 'black', color: 'white' }}>
           {this.state.context_type}
           {' '}

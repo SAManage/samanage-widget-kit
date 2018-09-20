@@ -15,12 +15,13 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "common-react-components": "git+ssh://git@github.com/SAManage/common-react-components.git#14d3b3786edf3fed5d74d4e0b8100bc0712f10d9",
+    "classnames": "2.2.5",
     "react": "16.3.2",
     "react-detachable-window": "git+ssh://git@github.com/eetay/react-detachable-window.git#master",
     "react-dom": "16.3.2",
     "react-hot-loader": "4.3.3",
-    "react-json-view": "^1.0"
+    "react-json-view": "^1.0",
+    "react-copy-to-clipboard": "5.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
