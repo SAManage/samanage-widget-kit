@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
+import OAuthAuthenticator from 'shared/components/OAuthAuthenticator'
 import TeamViewerIcon from './TeamViewerIcon'
 import classes from './index.scss'
 
@@ -10,13 +10,13 @@ const VIEW_MODE = {
   DISPLAY_PIN: 'DISPLAY_PIN'
 }
 
-export default class TeamViewer extends Component {
+export default class TeamViewer extends PureComponent {
   constructor (props) {
     super(props)
     this.state = {
       view: VIEW_MODE.LOGIN,
-      clientId: '',
-      clientSecret: '',
+      clientId: '177650-THka9f5jQct8BnhdGxP1',
+      clientSecret: 'wSUJn9fDuRxgLfdg5L8q',
       sessionDetails: {},
       accessToken: ''
       // clientId: '177650-THka9f5jQct8BnhdGxP1',
@@ -55,10 +55,7 @@ export default class TeamViewer extends Component {
         self.setState({ sessionDetails: JSON.parse(this.responseText), view: VIEW_MODE.DISPLAY_PIN })
       }
     }
-    xhttp.open('POST',
-      'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions',
-      // 'https://webapi.teamviewer.com/api/v1/ping',
-      true)
+    xhttp.open('POST', 'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions', true)
     xhttp.setRequestHeader('Authorization', `Bearer ${accessToken}`)
     xhttp.setRequestHeader('Content-Type', 'application/json')
     xhttp.send(JSON.stringify({
@@ -70,19 +67,13 @@ export default class TeamViewer extends Component {
 
    postComment = () => {
      const { sessionDetails } = this.state
-     const comment_json = {
+     const commentJson = {
        comment: {
          body: `<![CDATA[<p>Click the link below to start teamViewer session</p><a href="${sessionDetails.end_customer_link}">${sessionDetails.end_customer_link}</a>`,
          is_private: false
        }
      }
-     platformWidgetHelper.callSamanageAPI('POST', `/incidents/${this.props.contextId}/comments.json`, comment_json, (response) => {
-         const error_message = document.getElementById('logmein_error_message')
-         if (document.contains(error_message)) {
-           error_message.remove()
-         }
-       }
-     )
+     platformWidgetHelper.callSamanageAPI('POST', `/incidents/${this.props.contextId}/comments.json`, commentJson)
    }
 
   onClientSecretChange = (event) => {
@@ -109,23 +100,21 @@ export default class TeamViewer extends Component {
           Generate New Code
         </PlatformWidgetComponents.RegularButton>
       </div>
-
       <TeamViewerIcon />
     </div>
   )
 
   renderGenerateSession = () => (
-      <div className={classes.topDiv}>
-        <PlatformWidgetComponents.RegularText className={classes.text}>
-            Click to generate your Session Code. It will be used to conduct a remote support session
-        </PlatformWidgetComponents.RegularText>
-        <PlatformWidgetComponents.MainButton onClick={this.createTeamViewerSession} className={classes.button}>
-            Generate Session Code
-        </PlatformWidgetComponents.MainButton>
-        <TeamViewerIcon />
-      </div>
-
-    )
+    <div className={classes.topDiv}>
+      <PlatformWidgetComponents.RegularText className={classes.text}>
+          Click to generate your Session Code. It will be used to conduct a remote support session
+      </PlatformWidgetComponents.RegularText>
+      <PlatformWidgetComponents.MainButton onClick={this.createTeamViewerSession} className={classes.button}>
+          Generate Session Code
+      </PlatformWidgetComponents.MainButton>
+      <TeamViewerIcon />
+    </div>
+  )
 
   renderLogin = () => {
     const { clientId, clientSecret } = this.state
@@ -134,17 +123,16 @@ export default class TeamViewer extends Component {
         <PlatformWidgetComponents.TextField label='Client ID' onChange={this.onClientIDChange} value={clientId} />
         <PlatformWidgetComponents.TextField label='Client Secret' onChange={this.onClientSecretChange} value={clientSecret} />
         <OAuthAuthenticator
-          on_state_change={({ state, credentials }) => {
-            console.log(`TeamViewer auth state: ${state}`)
+          onStateChange={({ state, credentials }) => {
             if (state === OAuthAuthenticator.AUTHENTICATED) {
               this.setState({ accessToken: credentials.access_token, view: VIEW_MODE.GENERATE_PIN })
-              // this.setState({ view: VIEW_MODE.GENERATE_PIN })
             }
           }}
-          client_id={clientId}
-          client_secret={clientSecret}
-          token_url='https://webapi.teamviewer.com/api/v1/oauth2/token'
-          authorization_url='https://webapi.teamviewer.com/api/v1/oauth2/authorize?'
+          clientId={clientId}
+          clientSecret={clientSecret}
+          tokenUrl='https://webapi.teamviewer.com/api/v1/oauth2/token'
+          authorizationUrl='https://webapi.teamviewer.com/api/v1/oauth2/authorize?'
+          className={classes.button}
         />
         <TeamViewerIcon />
       </div>
