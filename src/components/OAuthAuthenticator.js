@@ -111,7 +111,12 @@ export default class OAuthAuthenticator extends React.PureComponent {
       state: platformWidgetHelper.toQueryString({ closeWindow: true }),
       display: 'popup'
     })
-    this.externalWindow = window.open(OAuthAuthenticatorUrl, '_blank', 'height=600,width=800,status=yes,toolbar=no,menubar=no,location=no')
+    const height = 600
+    const width = 800
+    const left = (window.screen.width - width) / 2
+    const top = (window.screen.height - height) / 2
+    this.externalWindow = window.open(OAuthAuthenticatorUrl, '_blank',
+      `height=${height},width=${width},status=yes,toolbar=no,menubar=no,location=no,top=${top},left=${left}`)
     const self = this
     this.externalWindow.onbeforeunload = function() { // eslint-disable-line
       self.setState({ externalWindow: false })
