@@ -17,10 +17,10 @@ export default class OAuthAuthenticator extends React.PureComponent {
 
   static propTypes = {
     onStateChange: PropTypes.func,
-    clientId: PropTypes.string,
-    clientSecret: PropTypes.string,
-    tokenUrl: PropTypes.string,
-    authorizationUrl: PropTypes.string,
+    clientId: PropTypes.string.isRequired,
+    clientSecret: PropTypes.string.isRequired,
+    tokenUrl: PropTypes.string.isRequired,
+    authorizationUrl: PropTypes.string.isRequired,
     className: PropTypes.string
   }
 
@@ -61,7 +61,6 @@ export default class OAuthAuthenticator extends React.PureComponent {
       const xhttp = new XMLHttpRequest()
       xhttp.onreadystatechange = function() { // eslint-disable-line
         if (this.readyState === 4) {
-          // alert(`getToken completed:(${this.status}): ${this.responseText}`)
           if (this.status === 200) {
             component.credentials = JSON.parse(this.responseText)
             component.setState({ state: OAuthAuthenticator.AUTHENTICATED, credentials: component.credentials }, component.onAuthStateChange)
