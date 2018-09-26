@@ -69,11 +69,7 @@ export default class TeamViewer extends Component {
       }
     }
     platformWidgetHelper.callSamanageAPI('POST', `/incidents/${this.props.contextId}/comments.json`, comment_json, (response) => {
-      const error_message = document.getElementById('logmein_error_message')
-      if (document.contains(error_message)) {
-        error_message.remove()
-      }
-      else { self.setState({ posted: true}) }
+      if (response && !response.errorText) { self.setState({ posted: true}) }
     })
   }
 
