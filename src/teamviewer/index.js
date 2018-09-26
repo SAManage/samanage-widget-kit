@@ -36,7 +36,6 @@ export default class SamangeWidget extends Component {
     if (response) {
       const responseObject = JSON.parse(response)
       const now = new Date().getTime()
-      debugger // eslint-disable-line
       if ((responseObject.accessToken && responseObject.validUntil) && (now < responseObject.validUntil)) {
         this.setState({ accessToken: responseObject.accessToken })
         return
