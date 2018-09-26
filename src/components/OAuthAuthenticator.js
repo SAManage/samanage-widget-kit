@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classes from '../teamviewer/index.scss'
 
 /*
   This component manages oauth authentication process
@@ -17,8 +16,12 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   static propTypes = {
-    client_id: PropTypes.string.isRequired,
-    client_secret: PropTypes.string.isRequired
+    onStateChange: PropTypes.func,
+    clientId: PropTypes.string.isRequired,
+    clientSecret: PropTypes.string.isRequired,
+    tokenUrl: PropTypes.string.isRequired,
+    authorizationUrl: PropTypes.string.isRequired,
+    className: PropTypes.string
   }
 
   componentDidMount () {
@@ -42,18 +45,21 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   onAuthStateChange = () => {
-    if (this.props.on_state_change) {
-      this.props.on_state_change({ state: this.state.state, credentials: this.state.credentials })
+    const { state, credentials } = this.state
+    const { onStateChange } = this.props
+    if (onStateChange) {
+      onStateChange({ state, credentials })
     }
   }
 
   getToken = (event) => {
+    const { tokenUrl, clientId, clientSecret } = this.props
     // Note: this whole function should be moved to server side (because of 'client_secret')
     const component = this
     try {
       const code = event.query_params.code
       const xhttp = new XMLHttpRequest()
-      xhttp.onreadystatechange = function() {
+      xhttp.onreadystatechange = function() { // eslint-disable-line
         if (this.readyState === 4) {
           if (this.status === 200) {
             component.credentials = JSON.parse(this.responseText)
@@ -64,19 +70,19 @@ export default class OAuthAuthenticator extends React.PureComponent {
           }
         }
       }
-      xhttp.open('POST', this.props.token_url, true)
-      const post_data = platformWidgetHelper.toQueryString({
+      xhttp.open('POST', tokenUrl, true)
+      const postData = platformWidgetHelper.toQueryString({
         grant_type: 'authorization_code',
         code,
         redirect_uri: `https://app.samanagestage.com${platformWidgetHelper.oauth.buildRedirectUrl()}`,
-        client_id: this.props.client_id,
-        client_secret: this.props.client_secret
+        client_id: clientId,
+        client_secret: clientSecret
       }).replace(/%20/g, '+')
       xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-      xhttp.send(post_data)
+      xhttp.send(postData)
     } catch (e) {
       component.setState({ state: OAuthAuthenticator.AUTH_ERROR, credentials: null }, component.onAuthStateChange)
-      console.error(e)
+      console.error(e) // eslint-disable-line
     }
   }
 
@@ -95,21 +101,24 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   openOAuthAuthenticator = () => {
+    const { clientId, clientSecret, authorizationUrl } = this.props
+    if (clientSecret.length === 0 || clientId.length === 0) return
     this.setState({ state: OAuthAuthenticator.AUTH_IN_PROGRESS })
-    const redirect_uri = `https://app.samanagestage.com${platformWidgetHelper.oauth.buildRedirectUrl()}`
-    const OAuthAuthenticator_url = this.props.authorization_url + platformWidgetHelper.toQueryString({
+    const OAuthAuthenticatorUrl = authorizationUrl + platformWidgetHelper.toQueryString({
       response_type: 'code',
-      client_id: this.props.client_id,
-      redirect_uri,
+      client_id: clientId,
+      redirect_uri: `https://app.samanagestage.com${platformWidgetHelper.oauth.buildRedirectUrl()}`,
       state: platformWidgetHelper.toQueryString({ closeWindow: true }),
       display: 'popup'
     })
-    const left = (window.screen.width - 800) / 2
-    const top = (window.screen.height - 600) / 2
-    this.externalWindow = window.open(OAuthAuthenticator_url, '_blank',
-      `height=600,width=800,status=yes,toolbar=no,menubar=no,location=no, chrome=yes, centerscreen, top=${top}, left=${left}`)
+    const height = 600
+    const width = 800
+    const left = (window.screen.width - width) / 2
+    const top = (window.screen.height - height) / 2
+    this.externalWindow = window.open(OAuthAuthenticatorUrl, '_blank',
+      `height=${height},width=${width},status=yes,toolbar=no,menubar=no,location=no,top=${top},left=${left}`)
     const self = this
-    this.externalWindow.onbeforeunload = function() {
+    this.externalWindow.onbeforeunload = function() { // eslint-disable-line
       self.setState({ externalWindow: false })
       self.externalWindow = null
     }
@@ -117,15 +126,14 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   render () {
-    const { client_id, client_secret } = this.props
-    const shouldDisableButton = client_secret.length === 0 || client_id.length === 0
+    const { clientId, clientSecret, className } = this.props
+    const { externalWindow } = this.state
+    const shouldDisableButton = clientSecret.length === 0 || clientId.length === 0
     const Button = shouldDisableButton ? PlatformWidgetComponents.RegularButton : PlatformWidgetComponents.MainButton
     return (
-      <div className={classes.buttons}>
-        <Button onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator} className={classes.button}>
-        Sign In
-        </Button>
-      </div>
+      <Button onClick={externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator} className={className}>
+        Sign in
+      </Button>
     )
   }
 }
