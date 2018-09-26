@@ -47,7 +47,6 @@ export default class SamangeWidget extends Component {
 
   render () {
     const { contextId, userId, accessToken } = this.state
-
     if (accessToken === null) return null
     return (
       <div className='slds slds-samanage samanage-media-query'>

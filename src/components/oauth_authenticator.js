@@ -105,8 +105,9 @@ export default class OAuthAuthenticator extends React.PureComponent {
       display: 'popup'
     })
     const left = (window.screen.width - 800) / 2
-    const top = (window.screen.height - 400) / 4
-    this.externalWindow = window.open(OAuthAuthenticator_url, '_blank', `height=600,width=800,status=yes,toolbar=no,menubar=no,location=no, chrome=yes, centerscreen, top=${top}, left=${left}`)
+    const top = (window.screen.height - 600) / 2
+    this.externalWindow = window.open(OAuthAuthenticator_url, '_blank',
+      `height=600,width=800,status=yes,toolbar=no,menubar=no,location=no, chrome=yes, centerscreen, top=${top}, left=${left}`)
     const self = this
     this.externalWindow.onbeforeunload = function() {
       self.setState({ externalWindow: false })
