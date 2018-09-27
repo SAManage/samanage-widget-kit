@@ -2,43 +2,50 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import contextTypes from 'shared/constants/contextTypes'
 import classes from './index.scss'
+import SlackIcon from './SlackIcon'
 
 export default class SamangeWidget extends Component {
-  // constructor (props) {
-  //   super(props)
-  //   this.state = { slackInfo: {} }
-  // }
+  state = {
+    slackChannel: 'Yuli',
+    contextId: ''
+  }
 
   onWidgetContextObject = (object) => {
     if (object.context_type !== contextTypes.INCIDENT) platformWidgetHelper.hide()
+    else this.setState({ contextId: object.context_id })
   }
 
   componentDidUpdate () {
-    platformWidgetHelper.updateHeight()
+    platformWidgetHelper.updateHeight(200)
   }
 
   componentDidMount () {
     platformWidgetHelper.getContextObject(this.onWidgetContextObject)
-    platformWidgetHelper.callSamanageAPI('GET', 'setup/samanage_labs/slack_data', (response) => {
-      debugger // eslint-disable-line
-      console.log('Got slack response: ', response)
-    })
-    // platformWidgetHelper.getStorage(STORAGE_KEY, this.getTokenFromStorage)
+    platformWidgetHelper.callSamanageAPI('GET', '/setup/samanage_labs/slack_data')
+      .then((response) => {
+        console.log('Got slack response: ', response)
+        // if (response && response.data && response.data.slackIncomingWebhook) this.setState({ slackChannel: response.data.slackIncomingWebhook.channel })
+        // else platformWidgetHelper.hide()
+      })
   }
 
-  postSlackMessage () {
-    console.log('POSTED!!')
+  postSlackMessage = () => {
+    const { contextId } = this.state
+    console.log('POSTED!!', contextId)
   }
 
   render () {
+    const { slackChannel } = this.state
+    if (!slackChannel) return null
     return (
       <div className='slds slds-samanage samanage-media-query'>
         <PlatformWidgetComponents.RegularText className={classes.text}>
-            Push inportant update directly to Slack channel
+          {`Push important update directly to Slack channel ${slackChannel}`}
         </PlatformWidgetComponents.RegularText>
         <PlatformWidgetComponents.MainButton onClick={this.postSlackMessage} className={classes.button}>
             Post
         </PlatformWidgetComponents.MainButton>
+        <SlackIcon />
       </div>
     )
   }
