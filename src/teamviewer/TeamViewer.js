@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import OAuthAuthenticator from 'shared/components/OAuthAuthenticator'
 import TeamViewerIcon from './TeamViewerIcon'
-import classes from './index.scss'
+import classes from './TeamViewer.scss'
 
 const VIEW_MODE = {
   LOGIN: 'LOGIN',
@@ -25,7 +25,8 @@ export default class TeamViewer extends PureComponent {
 
   static propTypes = {
     contextId: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string.isRequired,
+    accessToken: PropTypes.string
   }
 
   componentDidMount () {
@@ -34,7 +35,7 @@ export default class TeamViewer extends PureComponent {
   }
 
   componentDidUpdate () {
-    platformWidgetHelper.updateHeight(5000)
+    platformWidgetHelper.updateHeight()
   }
 
   createTeamViewerSession = () => {
@@ -48,7 +49,7 @@ export default class TeamViewer extends PureComponent {
         const StringDate = new Date(JSON.parse(this.responseText).valid_until)
         const validUntil = StringDate.getTime()
         const value = JSON.stringify({ accessToken, validUntil })
-        platformWidgetHelper.setStorage(userId.toString(), value, validUntil )
+        platformWidgetHelper.setStorage(userId.toString(), value, '' )
       }
     }
     xhttp.open('POST', 'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions', true)
@@ -155,8 +156,6 @@ export default class TeamViewer extends PureComponent {
 
   render () {
     const { view } = this.state
-    const { userId } = this.props
-    const temp = platformWidgetHelper.getStorage(userId.toString(), this.getStorageCB)
     switch (view) {
       case VIEW_MODE.LOGIN: return this.renderLogin()
       case VIEW_MODE.GENERATE_PIN: return this.renderGenerateSession()

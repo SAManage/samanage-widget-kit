@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './index.scss'
+import classes from './TeamViewer.scss'
 /* eslint-disable max-len */
 const TeamViewer = () => (
   <svg className={classes.svg} width='100px' height='20px' viewBox='0 0 4508 1024'>

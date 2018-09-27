@@ -17,19 +17,20 @@ export default class SamangeWidget extends Component {
     if (object.context_type !== contextTypes.INCIDENT) {
       platformWidgetHelper.hide()
     } else {
-      platformWidgetHelper.getUserInfo((user_info) => {
-        this.setState({ contextId: object.context_id, userId: user_info.id })
-        platformWidgetHelper.getStorage(user_info.id.toString(), this.getStorageCB)
-      })
+      this.setState({ contextId: object.context_id })
     }
   }
 
   componentDidUpdate () {
-    platformWidgetHelper.updateHeight(1500)
+    platformWidgetHelper.updateHeight()
   }
 
   componentDidMount () {
     platformWidgetHelper.getContextObject(this.onWidgetObject)
+    platformWidgetHelper.getUserInfo((user_info) => {
+      this.setState({ userId: user_info.id })
+      platformWidgetHelper.getStorage(user_info.id.toString(), this.getStorageCB)
+    })
   }
 
   getStorageCB = (response) => {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import ReactJson from 'react-json-view'
 import REPL from 'shared/components/repl.js'
 import ReactDetachableWindow from 'react-detachable-window'
-import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
+import OAuthAuthenticator from 'shared/components/OAuthAuthenticator'
 import classes from './index.scss'
 
 const EventBus = {
