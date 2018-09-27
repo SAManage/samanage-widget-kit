@@ -27,9 +27,9 @@ export default class SamangeWidget extends Component {
 
   componentDidMount () {
     platformWidgetHelper.getContextObject(this.onWidgetObject)
-    platformWidgetHelper.getUserInfo((user_info) => {
-      this.setState({ userId: user_info.id })
-      platformWidgetHelper.getStorage(user_info.id.toString(), this.getStorageCB)
+    platformWidgetHelper.getUserInfo((userInfo) => {
+      this.setState({ userId: userInfo.id })
+      platformWidgetHelper.getStorage(userInfo.id.toString(), this.getStorageCB)
     })
   }
 
