@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './TeamViewer.scss'
 /* eslint-disable max-len */
 const TeamViewer = () => (
-  <svg className={classes.svg} width='100px' height='20px' viewBox='0 0 4508 1024'>
+  <svg className={classes.svg} width='106px' height='30px' viewBox='0 0 4508 1024'>
     <defs>
       <linearGradient x1='44.2977528%' y1='100.002295%' x2='44.2977528%' y2='-0.00917852226%' id='linearGradient-1'>
         <stop stopColor='#096FD2' offset='0%'></stop>
