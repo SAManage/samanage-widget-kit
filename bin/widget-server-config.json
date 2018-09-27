@@ -2,7 +2,7 @@
   "dev" : {
     "origin1": "https://api.samanagestage.com",
     "origin": "http://localhost:3000",
-    "token": "",
+    "token": "eXVsaS5hcmJvdkBzYW1hbmFnZS5jb20=:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoyNzI0NzcsImdlbmVyYXRlZF9hdCI6IjIwMTgtMDktMDQgMTA6MjE6MDEifQ.L75B2KPgN7ZyWcNqf0lYcEsovOkkCaqtbxJeADeOlHVXwOmqjQzIUBUWRVg8UqwO87PuKJvR4OekF49fS4xTNw",
     "widgets" : {
       "example1": {
         "description": "First example",
@@ -12,9 +12,13 @@
         "description": "A good place to start from",
         "name": "My First Widget"
       },
-      "logMeInWidget": {
+      "logmein": {
         "description": "Samanage LogMeIn Rescue integration application",
         "name": "LogMeIn Rescue"
+      },
+      "slack": {
+        "description": "Samanage Slack integration application",
+        "name": "Slack"
       }
     }
   }
