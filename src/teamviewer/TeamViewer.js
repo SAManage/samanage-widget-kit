@@ -74,7 +74,8 @@ export default class TeamViewer extends PureComponent {
     })
   }
 
-  renderPostedMessage = (posted) => {
+  renderPostedMessage = () => {
+    const { posted } = this.state
     if (!posted) return null
     return (
       <div className={classes.copyText}>
@@ -92,28 +93,24 @@ export default class TeamViewer extends PureComponent {
     this.setState({ clientId: event.target.value })
   }
 
-  renderSessionPin = () => {
-    const { posted } = this.state
-    return (
-      <div className={classes.topDiv}>
-        { this.renderPostedMessage(posted) }
-        <PlatformWidgetComponents.RegularText className={classes.topText}>
-              Your Session Code is:
-        </PlatformWidgetComponents.RegularText>
-        <PlatformWidgetComponents.LargeText className={classes.pinText}>
-          {this.state.sessionDetails.code}
-        </PlatformWidgetComponents.LargeText>
-        <div className={classes.buttons}>
-          <PlatformWidgetComponents.MainButton className={classes.button} onClick={this.postComment}>
-            Send Link via comment
-          </PlatformWidgetComponents.MainButton>
-          <PlatformWidgetComponents.RegularButton  onClick={this.createTeamViewerSession} className={classes.button}>
-            Generate New Code
-          </PlatformWidgetComponents.RegularButton>
-        </div>
-        <TeamViewerIcon />
-      </div>
-    )}
+  renderSessionPin = () => (
+    <div className={classes.topDiv}>
+      { this.renderPostedMessage() }
+      <PlatformWidgetComponents.RegularText className={classes.topText}>
+            Your Session Code is:
+      </PlatformWidgetComponents.RegularText>
+      <PlatformWidgetComponents.LargeText className={classes.pinText}>
+        {this.state.sessionDetails.code}
+      </PlatformWidgetComponents.LargeText>
+      <PlatformWidgetComponents.MainButton className={classes.button} onClick={this.postComment}>
+        Send Link via comment
+      </PlatformWidgetComponents.MainButton>
+      <PlatformWidgetComponents.RegularButton  onClick={this.createTeamViewerSession} className={classes.button}>
+        Generate New Code
+      </PlatformWidgetComponents.RegularButton>
+      <TeamViewerIcon />
+    </div>
+  )
 
   renderGenerateSession = () => (
     <div className={classes.topDiv}>
