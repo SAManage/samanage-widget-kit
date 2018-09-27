@@ -105,11 +105,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
     if (clientSecret.length === 0 || clientId.length === 0) return
     this.setState({ state: OAuthAuthenticator.AUTH_IN_PROGRESS })
     const OAuthAuthenticatorUrl = authorizationUrl + platformWidgetHelper.toQueryString({
-      response_type: 'code',
-      client_id: clientId,
-      redirect_uri: `https://app.samanagestage.com${platformWidgetHelper.oauth.buildRedirectUrl()}`,
-      state: platformWidgetHelper.toQueryString({ closeWindow: true }),
-      display: 'popup'
+
     })
     const height = 600
     const width = 800

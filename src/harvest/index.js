@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import contextTypes from 'shared/constants/contextTypes'
-// import TeamViewer from './TeamViewer'
+import Harvest from './Harvest'
 
 export default class SamangeWidget extends Component {
   constructor (props) {
@@ -33,25 +33,23 @@ export default class SamangeWidget extends Component {
     })
   }
 
-  getStorageCB = (response) => {
-    if (response) {
-      const responseObject = JSON.parse(response)
-      const now = new Date().getTime()
-      if ((responseObject.accessToken && responseObject.validUntil) && (now < responseObject.validUntil)) {
-        this.setState({ accessToken: responseObject.accessToken })
-        return
-      }
-    }
-    this.setState({ accessToken: '' })
-  }
+  // getStorageCB = (response) => {
+  //   if (response) {
+  //     const responseObject = JSON.parse(response)
+  //     const now = new Date().getTime()
+  //     if ((responseObject.accessToken && responseObject.validUntil) && (now < responseObject.validUntil)) {
+  //       this.setState({ accessToken: responseObject.accessToken })
+  //       return
+  //     }
+  //   }
+  //   this.setState({ accessToken: '' })
+  // }
 
   render () {
-    // const { contextId, userId, accessToken } = this.state
-    // if (accessToken === null) return null
+    const { contextId, userId } = this.state
     return (
       <div className='slds slds-samanage samanage-media-query'>
-        iadushdiad
-        {/* <TeamViewer contextId={contextId} userId={userId} accessToken={accessToken} /> */}
+        <Harvest contextId={contextId} userId={userId} />
       </div>
     )
   }
