@@ -62,5 +62,5 @@ typings/
 # next.js build output
 .next
 
-# main index.html file 
-index.html
+# main index.html file
+/index.html
