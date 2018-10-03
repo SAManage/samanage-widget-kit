@@ -1,7 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
-const { commonConfig, parentDir, dirNames } = require('./webpack.common.js')
+const { commonConfig, parentDir, widgetNames } = require('./webpack.common.js')
 
 function newHtmlPlugin(folder) {
   return new HtmlWebPackPlugin({
@@ -20,7 +20,7 @@ mergedConfig = Object.assign(
       historyApiFallback: true
     },
     plugins : [
-      ...dirNames.map(newHtmlPlugin),
+      ...widgetNames.map(newHtmlPlugin),
     ]
   }
 )
