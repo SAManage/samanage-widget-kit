@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import contextTypes from 'shared/constants/contextTypes'
-import LogMeInWidget, { STORAGE_KEY } from './LogMeInWidget'
+import LogMeIn, { STORAGE_KEY } from './LogMeIn'
 
 export default class SamangeWidget extends Component {
   constructor (props) {
@@ -36,7 +36,7 @@ export default class SamangeWidget extends Component {
     if (code === null) return null
     return (
       <div className='slds slds-samanage samanage-media-query'>
-        <LogMeInWidget code={code} />
+        <LogMeIn code={code} />
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './LogMeInWidget.scss'
+import classes from './LogMeIn.scss'
 /* eslint-disable max-len */
 const LogMeInIcon = () => (
   <svg width='100px' height='20px' viewBox='0 0 251.57 72.25' className={classes.svg}>
