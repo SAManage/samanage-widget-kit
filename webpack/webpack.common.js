@@ -1,14 +1,15 @@
 var path = require('path')
 var parentDir=path.join(__dirname,'..')
 
+const widgetNames = ['example1', 'example2', 'my_first_widget', 'teamviewer', 'logmein']
+const entry = widgetNames.reduce((res, val) => {
+	return {
+		...res, [val]: path.join(__dirname, `../src/${val}/index.js`)
+	}
+}, {})
+
 const commonConfig = {
-	entry: {
-		example1: path.join(__dirname, '../src/example1/index.js'),
-		example2: path.join(__dirname, '../src/example2/index.js'),
-		my_first_widget: path.join(__dirname, '../src/my_first_widget/index.js'),
-		teamviewer: path.join(__dirname, '../src/teamviewer/index.js'),
-		logmein: path.join(__dirname, '../src/logmein/index.js')
-	},
+	entry,
 	module: {
 		rules: [{
 			test: /\.(js|jsx)$/,
@@ -42,5 +43,6 @@ const commonConfig = {
 
 module.exports = {
   commonConfig,
-  parentDir
+  parentDir,
+  widgetNames
 }
