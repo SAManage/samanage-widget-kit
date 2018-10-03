@@ -44,5 +44,5 @@ const commonConfig = {
 module.exports = {
   commonConfig,
   parentDir,
-	dirNames
+  dirNames
 }
