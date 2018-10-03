@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import classnames from 'classnames'
 import LogMeInIcon from './LogMeInIcon'
-import classes from './LogMeInWidget.scss'
+import classes from './LogMeIn.scss'
 
 const VIEW_MODE = {
   LOGIN: 'LOGIN',
@@ -29,7 +29,7 @@ const URL_PREFIX = 'https://secure.logmeinrescue.com'
 
 export const STORAGE_KEY = 'LogMeIn'
 
-export default class LogMeInWidget extends PureComponent {
+export default class LogMeIn extends PureComponent {
   constructor (props) {
     super(props)
     this.state = {
